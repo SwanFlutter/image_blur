@@ -27,3 +27,5 @@ migrate_working_dir/
 **/doc/api/
 .dart_tool/
 build/
+!lib/src/widget/Image_hash_preview.dart
+!lib/src/widget/Image_hash_preview_circular.dart
