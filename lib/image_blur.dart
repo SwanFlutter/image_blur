@@ -15,6 +15,7 @@ class ImageBlur extends StatefulWidget {
   /// [height] non-null, requires the child to have exactly this height.
   final double? height;
 
+  /// [width] non-null, requires the child to have exactly this width.
   final double? width;
 
   ///Used to combine [color] with this image.
@@ -147,6 +148,7 @@ class ImageBlur extends StatefulWidget {
   ///The color of the placeholder image.
   final Color? placeholderColor;
 
+  /// The border radius.
   final BorderRadiusGeometry borderRadius;
 
   ///If non-null, the corners of this box are rounded by this [BorderRadius].
@@ -447,10 +449,20 @@ class ImageBlur extends StatefulWidget {
 
     /// Anti-aliasing alleviates the sawtooth artifact when the image is rotated.
     bool isAntiAlias = false,
+
+    /// [isBlur]: Flag indicating whether to generate BlurHash representations for images.
     bool isBlur = true,
+
+    /// [isShimmer]: Flag indicating whether to display a shimmer effect while loading images.
     bool isShimmer = true,
+
+    /// [headers]: A map from request headers to values for the request.
     Map<String, String>? headers,
+
+    /// [cacheWidth]: The desired width of the image cache.
     int? cacheWidth,
+
+    /// [cacheHeight]: The desired height of the image cache.
     int? cacheHeight,
   }) {
     return ImageCircularBlur(

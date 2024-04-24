@@ -4,63 +4,93 @@ import 'package:flutter/material.dart';
 
 import '../tools/shimmer_image_tools.dart';
 
+/// A circular image widget with options for applying BlurHash and shimmer effects.
 class ImageCircularBlur extends StatelessWidget {
+  ///[imageNetwork] The URL of the image to be loaded from the network.
   final String? imageNetwork;
 
+  /// [imageAssets] The path of the image to be loaded from the assets.
   final String? imageAssets;
 
+  /// [durationShimmer] The duration of the shimmer effect animation in seconds.
   final int durationShimmer;
 
+  /// [durationBlur] The duration of the blur effect animation in seconds.
   final int durationBlur;
 
+  /// [size] The size of the circular image.
   final double? size;
 
+  /// [fit] The fit of the image within the circular widget.
   final BoxFit? fit;
 
+  /// [colorBlendMode] The blend mode used to blend the image with the background color.
   final BlendMode? colorBlendMode;
 
+  /// [color] The color applied as a filter to the image.
   final Color? color;
 
+  /// [alignment] The alignment of the image within its bounding box.
   final AlignmentGeometry alignment;
 
+  /// [centerSlice] The rectangle inside the image used for centering and scaling.
   final Rect? centerSlice;
 
+  /// [opacity] The opacity of the image.
   final Animation<double>? opacity;
 
+  /// [filterQuality] The quality of the image filtering.
   final FilterQuality filterQuality;
 
+  /// [repeat] The strategy to use when painting the image.
   final ImageRepeat repeat;
 
+  /// [matchTextDirection] Whether to match the direction of the image with the direction of the text.
   final bool matchTextDirection;
 
+  /// [gapLessPlayback] Whether to gaplessly loop a finite set of images.
   final bool gapLessPlayback;
 
+  /// [semanticLabel] A semantic description of the image.
   final String? semanticLabel;
 
+  /// [frameBuilder] A builder function used to create custom frames for the image.
   final ImageFrameBuilder? frameBuilder;
 
+  /// [loadingBuilder] A builder function used to create custom widgets while the image is loading.
   final ImageLoadingBuilder? loadingBuilder;
 
+  /// [errorBuilder] A builder function used to create custom error widgets.
   final ImageErrorWidgetBuilder? errorBuilder;
 
+  /// [isAntiAlias] Whether to use anti-aliasing when painting the image.
   final bool isAntiAlias;
 
+  /// [isBlur] Whether to apply BlurHash effect to the image.
   final bool isBlur;
 
+  /// [isShimmer] Whether to display shimmer effect while loading the image.
   final bool isShimmer;
 
+  /// [headers] Optional HTTP headers to include in the image request.
   final Map<String, String>? headers;
 
+  /// [cacheWidth] The desired width of the image cache.
   final int? cacheWidth;
 
+  /// [cacheHeight] The desired height of the image cache.
   final int? cacheHeight;
 
+  /// [baseColorShimmer] The base color of the shimmer effect.
   final Color baseColorShimmer;
 
+  /// [highlightColorShimmer] The highlight color of the shimmer effect.
   final Color highlightColorShimmer;
 
+  /// [colorShimmer] The color of the shimmer effect.
   final Color colorShimmer;
 
+  /// [placeholderColor] The color to be displayed as a placeholder while the image is loading.
   final Color? placeholderColor;
 
   const ImageCircularBlur({

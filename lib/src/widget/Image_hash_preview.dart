@@ -39,68 +39,100 @@ class ImageHashPreview extends StatefulWidget {
     this.borderRadius = BorderRadius.zero,
   }) : super(key: key);
 
+  /// [imagePath] The path or URL of the image to be displayed.
   final String imagePath;
 
+  /// [width] The width of the image widget.
   final double? width;
 
+  /// [height] The height of the image widget.
   final double? height;
 
+  /// [curve] The color to display as a placeholder while the image is loading.
   final Color? placeholderColor;
 
+  /// [] The curve used for animation transitions.
   final Curve curve;
 
+  /// [fit] How the image should be inscribed into the space allocated during layout.
   final BoxFit fit;
 
+  /// [decodingHeight] The height used to decode the image.
   final int decodingHeight;
 
+  /// [decodingWidth] The width used to decode the image.
   final int decodingWidth;
 
+  /// [duration] The duration of the transition animation.
   final Duration duration;
 
+  /// [onDecoded] A callback function invoked when the image is decoded.
   final void Function()? onDecoded;
 
+  /// [onStarted] A callback function invoked when the image loading process starts.
   final void Function()? onStarted;
 
+  /// [onReady] A callback function invoked when the image is ready for display.
   final void Function()? onReady;
 
+  /// [onDisplayed] A callback function invoked when the image is displayed.
   final void Function()? onDisplayed;
 
+  /// [colorBlendMode] The blend mode used to blend the image with the background color.
   final BlendMode? colorBlendMode;
 
+  /// [color] The color applied as a filter to the image.
   final Color? color;
 
+  /// [alignment] The alignment of the image within its bounding box.
   final Alignment alignment;
 
+  /// [centerSlice] The rectangle inside the image used for centering and scaling.
   final Rect? centerSlice;
 
+  /// [opacity] The opacity of the image.
   final Animation<double>? opacity;
 
+  /// [filterQuality] The quality of the image filtering.
   final FilterQuality filterQuality;
 
+  /// [repeat] The strategy to use when painting the image.
   final ImageRepeat repeat;
 
+  /// [matchTextDirection] Whether to match the direction of the image with the direction of the text.
   final bool matchTextDirection;
 
+  /// [gapLessPlayback] Whether to gaplessly loop a finite set of images.
   final bool gapLessPlayback;
 
+  /// [semanticLabel] A semantic description of the image.
   final String? semanticLabel;
 
+  /// [frameBuilder] A builder function used to create custom frames for the image.
   final ImageFrameBuilder? frameBuilder;
 
+  /// [loadingBuilder] A builder function used to create custom widgets while the image is loading.
   final ImageLoadingBuilder? loadingBuilder;
 
+  /// [errorBuilder] A builder function used to create custom error widgets.
   final ImageErrorWidgetBuilder? errorBuilder;
 
+  /// [isAntiAlias] Whether to use anti-aliasing when painting the image.
   final bool isAntiAlias;
 
+  /// [headers] Optional HTTP headers to include in the image request.
   final Map<String, String>? headers;
 
+  /// [cacheWidth] The desired width of the image cache.
   final int? cacheWidth;
 
+  /// [cacheHeight] The desired height of the image cache.
   final int? cacheHeight;
 
+  /// [scale] The scale to apply to the image.
   final double scale;
 
+  /// [borderRadius] The border radius of the image widget.
   final BorderRadiusGeometry borderRadius;
 
   @override
