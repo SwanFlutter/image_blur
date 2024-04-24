@@ -3,42 +3,6 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:image_blur/src/tools/get_image_tools.dart';
 
 class ImageHashPreview extends StatefulWidget {
-  const ImageHashPreview({
-    Key? key,
-    required this.imagePath,
-    this.width,
-    this.height,
-    this.placeholderColor,
-    this.curve = Curves.easeOut,
-    this.fit = BoxFit.cover,
-    this.decodingHeight = 32,
-    this.decodingWidth = 32,
-    this.duration = const Duration(milliseconds: 1000),
-    this.onDecoded,
-    this.onStarted,
-    this.onReady,
-    this.onDisplayed,
-    this.colorBlendMode = BlendMode.srcIn,
-    this.color,
-    this.alignment = Alignment.center,
-    this.centerSlice,
-    this.opacity,
-    this.filterQuality = FilterQuality.low,
-    this.repeat = ImageRepeat.noRepeat,
-    this.matchTextDirection = false,
-    this.gapLessPlayback = false,
-    this.semanticLabel,
-    this.frameBuilder,
-    this.loadingBuilder,
-    this.errorBuilder,
-    this.isAntiAlias = false,
-    this.headers,
-    this.cacheWidth,
-    this.cacheHeight,
-    this.scale = 1.0,
-    this.borderRadius = BorderRadius.zero,
-  }) : super(key: key);
-
   /// [imagePath] The path or URL of the image to be displayed.
   final String imagePath;
 
@@ -135,6 +99,42 @@ class ImageHashPreview extends StatefulWidget {
   /// [borderRadius] The border radius of the image widget.
   final BorderRadiusGeometry borderRadius;
 
+  const ImageHashPreview({
+    Key? key,
+    required this.imagePath,
+    this.width,
+    this.height,
+    this.placeholderColor,
+    this.curve = Curves.easeOut,
+    this.fit = BoxFit.cover,
+    this.decodingHeight = 32,
+    this.decodingWidth = 32,
+    this.duration = const Duration(milliseconds: 1000),
+    this.onDecoded,
+    this.onStarted,
+    this.onReady,
+    this.onDisplayed,
+    this.colorBlendMode = BlendMode.srcIn,
+    this.color,
+    this.alignment = Alignment.center,
+    this.centerSlice,
+    this.opacity,
+    this.filterQuality = FilterQuality.low,
+    this.repeat = ImageRepeat.noRepeat,
+    this.matchTextDirection = false,
+    this.gapLessPlayback = false,
+    this.semanticLabel,
+    this.frameBuilder,
+    this.loadingBuilder,
+    this.errorBuilder,
+    this.isAntiAlias = false,
+    this.headers,
+    this.cacheWidth,
+    this.cacheHeight,
+    this.scale = 1.0,
+    this.borderRadius = BorderRadius.zero,
+  }) : super(key: key);
+
   @override
   _ImageHashPreviewState createState() => _ImageHashPreviewState();
 }
@@ -225,10 +225,6 @@ class _ImageHashPreviewState extends State<ImageHashPreview> {
     );
   }
 }
-
-
-
-
 
 /**import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
