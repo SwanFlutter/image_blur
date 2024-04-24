@@ -60,7 +60,7 @@ imageNetwork:
 
 ```yaml
 dependencies:
-  image_blur: ^1.0.2
+  image_blur: ^1.0.3
 ```
 
 ## How to use
@@ -77,7 +77,6 @@ import 'package:flutter/material.dart';
 import 'package:image_blur/image_blur.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
   await ImageBlur.init(removeCacheTime: 10);
   runApp(const MyApp());
 }
