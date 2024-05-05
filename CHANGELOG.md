@@ -10,3 +10,10 @@
 ## 1.0.4
 
 * Fix Pub Point.
+
+## 1.0.5
+
+* Fix Bug.
+
+* Add Property onPaletteReceived.
+

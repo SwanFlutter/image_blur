@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_blur/src/widget/image_circular_blur.dart';
 import 'package:image_blur/src/widget/image_hash_preview.dart';
 import 'package:image_blur/src/widget/image_hash_preview_circular.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 class ImageBlur extends StatefulWidget {
   final String imageUrl;
@@ -525,6 +526,8 @@ class ImageBlur extends StatefulWidget {
     final int? cacheHeight,
     final double scale = 1.0,
     final BorderRadiusGeometry borderRadius = BorderRadius.zero,
+    final Future<PaletteGenerator?>? Function(Future<PaletteGenerator>?)?
+        onPaletteReceived,
   }) {
     return ImageHashPreview(
       imagePath: imagePath,
@@ -558,6 +561,8 @@ class ImageBlur extends StatefulWidget {
       cacheWidth: cacheWidth,
       cacheHeight: cacheHeight,
       scale: scale,
+      borderRadius: borderRadius,
+      onPaletteReceived: onPaletteReceived,
     );
   }
 
@@ -643,15 +648,15 @@ class _ImageBlurState extends State<ImageBlur> {
   @override
   Widget build(BuildContext context) {
     double blurValue = 0.0;
-    return ClipRRect(
-      borderRadius: widget.borderRadius,
-      child: Container(
-        height: widget.height,
-        width: widget.width,
-        decoration: BoxDecoration(
-          color: widget.placeholderColor,
-          borderRadius: widget.borderRadius,
-        ),
+    return Container(
+      height: widget.height,
+      width: widget.width,
+      decoration: BoxDecoration(
+        color: widget.placeholderColor,
+        borderRadius: widget.borderRadius,
+      ),
+      child: ClipRRect(
+        borderRadius: widget.borderRadius,
         child: FastCachedImage(
           errorBuilder: (context, url, error) => const Icon(Icons.error),
           url: widget.imageUrl,
