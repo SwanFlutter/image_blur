@@ -26,8 +26,9 @@ height: size.height,
 
 
 
+![20240505_073705](https://github.com/SwanFlutter/image_blur/assets/151648897/d5a1f5a4-0b64-4059-9213-56bee562716c)
 
-https://github.com/SwanFlutter/image_blur/assets/151648897/e9dbe8e6-08f9-41e0-926d-d8016e626694
+
 
 
 
