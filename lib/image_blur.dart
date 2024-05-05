@@ -160,7 +160,7 @@ class ImageBlur extends StatefulWidget {
 
   const ImageBlur({
     required this.imageUrl,
-    super.key,
+    Key? key,
     this.fit = BoxFit.cover,
     this.height,
     this.width,
@@ -192,6 +192,9 @@ class ImageBlur extends StatefulWidget {
   });
 
   static Widget imageCircularBlur({
+    /// Receives images from Image Network
+    Key? key,
+
     ///Receives images from Image Network
     final String? imageNetwork,
 
@@ -490,6 +493,7 @@ class ImageBlur extends StatefulWidget {
       cacheHeight: cacheHeight,
       cacheWidth: cacheWidth,
       headers: headers,
+      key: key,
     );
   }
 
@@ -528,6 +532,7 @@ class ImageBlur extends StatefulWidget {
     final BorderRadiusGeometry borderRadius = BorderRadius.zero,
     final Future<PaletteGenerator?>? Function(Future<PaletteGenerator>?)?
         onPaletteReceived,
+    Key? key,
   }) {
     return ImageHashPreview(
       imagePath: imagePath,
@@ -563,6 +568,7 @@ class ImageBlur extends StatefulWidget {
       scale: scale,
       borderRadius: borderRadius,
       onPaletteReceived: onPaletteReceived,
+      key: key,
     );
   }
 
@@ -597,6 +603,7 @@ class ImageBlur extends StatefulWidget {
     final int? cacheWidth,
     final int? cacheHeight,
     final double scale = 1.0,
+    Key? key,
   }) {
     return ImageHashPreviewCircular(
       imagePath: imagePath,
@@ -629,6 +636,7 @@ class ImageBlur extends StatefulWidget {
       cacheWidth: cacheWidth,
       cacheHeight: cacheHeight,
       scale: scale,
+      key: key,
     );
   }
 

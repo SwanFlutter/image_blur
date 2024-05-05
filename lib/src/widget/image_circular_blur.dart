@@ -94,7 +94,7 @@ class ImageCircularBlur extends StatelessWidget {
   final Color? placeholderColor;
 
   const ImageCircularBlur({
-    super.key,
+    Key? key,
     this.imageNetwork,
     this.imageAssets,
     this.durationShimmer = 2,
