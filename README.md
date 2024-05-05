@@ -25,6 +25,13 @@ height: size.height,
 ![blur-3](https://github.com/SwanFlutter/image_blur/assets/151648897/4e065444-1c6d-4442-bcee-01a68e635ae1)
 
 
+
+![20240505_073705](https://github.com/SwanFlutter/image_blur/assets/151648897/d5a1f5a4-0b64-4059-9213-56bee562716c)
+
+
+
+
+
 ```dart
 ImageBlur(
 imageUrl: listimage[index],
