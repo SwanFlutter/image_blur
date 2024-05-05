@@ -29,6 +29,8 @@ height: size.height,
 
 /// You can get their colors from the color palette image
 
+Color? backgroundColor;
+
 ImageBlur.imageHashPreview(
 onPaletteReceived: (paletteGeneratorFuture) async {
  // Create a timeout future with a specified duration (e.g., 5 seconds)
