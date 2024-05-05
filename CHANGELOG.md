@@ -17,3 +17,9 @@
 
 * Add Property onPaletteReceived.
 
+## 1.0.6
+
+* Fix And Update Property onPaletteReceived.
+
+
+

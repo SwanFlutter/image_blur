@@ -144,7 +144,7 @@ imageNetwork:
 
 ```yaml
 dependencies:
-  image_blur: ^1.0.5
+  image_blur: ^1.0.6
 ```
 
 ## How to use
