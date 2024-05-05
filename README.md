@@ -43,7 +43,78 @@ imagePath:
 )
 ```
 
+
+
 ![blur-1](https://github.com/SwanFlutter/image_blur/assets/151648897/19aada15-2690-4679-8c2f-48b497314fce)
+
+```dart
+ImageBlur.imageHashPreview(
+onPaletteReceived: (paletteGeneratorFuture) async {
+ // Create a timeout future with a specified duration (e.g., 5 seconds)
+Future<PaletteGenerator?> createTimeoutFuture(
+ Duration duration) {
+final completer = Completer<PaletteGenerator?>();
+Future.delayed(
+duration, () => completer.complete(null));
+return completer.future;
+}
+
+final timeoutFuture =
+createTimeoutFuture(const Duration(seconds: 5));
+// Use Future.wait to wait for either paletteGeneratorFuture to complete
+// or the timeoutFuture to elapse
+final results = await Future.wait<PaletteGenerator?>(
+[
+ paletteGeneratorFuture
+as Future<PaletteGenerator?>,
+timeoutFuture,
+],
+eagerError: true,
+);
+
+if (results[0] != null &&
+results[0] is PaletteGenerator) {
+// paletteGeneratorFuture completed first, process the palette
+final paletteGenerator =
+results[0] as PaletteGenerator;
+if (paletteGenerator.lightVibrantColor != null) {
+final dominantColor =
+paletteGenerator.lightVibrantColor!.color;
+setState(() {
+ _draggableWidgetController.backgroundColor =
+dominantColor;
+});
+} else {
+ debugPrint(
+ "Palette generation failed or lightVibrantColor is null");
+ }
+ } else {
+// Timeout occurred or paletteGeneratorFuture is null, handle loading failure
+ _draggableWidgetController.loding();
+}
+ return null;
+},
+duration: const Duration(seconds: 1),
+width: size.width,
+height: size.height,
+fit: Platform.isWindows &&
+ Platform.isMacOS &&
+ Platform.isLinux &&
+kIsWeb
+? BoxFit.fitHeight
+: BoxFit.cover,
+imagePath: widget.imagePath,
+ errorBuilder: (context, error, stackTrace) {
+_draggableWidgetController.loding();
+return Icon(
+Icons.image_not_supported_outlined,
+ color: Theme.of(context).primaryColor,
+);
+},
+),
+```
+
+
 
 
 ```dart
