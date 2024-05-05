@@ -55,6 +55,9 @@ imagePath:
 ![blur-1](https://github.com/SwanFlutter/image_blur/assets/151648897/19aada15-2690-4679-8c2f-48b497314fce)
 
 ```dart
+
+/// You can get their colors from the color palette image
+
 ImageBlur.imageHashPreview(
 onPaletteReceived: (paletteGeneratorFuture) async {
  // Create a timeout future with a specified duration (e.g., 5 seconds)
