@@ -2,12 +2,14 @@ import 'dart:ui';
 
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image_blur/src/tools/get_image_tools.dart';
 import 'package:image_blur/src/widget/image_circular_blur.dart';
 import 'package:image_blur/src/widget/image_hash_preview.dart';
 import 'package:image_blur/src/widget/image_hash_preview_circular.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class ImageBlur extends StatefulWidget {
+  /// [imageUrl] The path or URL of the image to be displayed.
   final String imageUrl;
 
   ///Default [BoxFit.cover]
@@ -149,14 +151,16 @@ class ImageBlur extends StatefulWidget {
   ///The color of the placeholder image.
   final Color? placeholderColor;
 
-  /// The border radius.
-  final BorderRadiusGeometry borderRadius;
-
   ///If non-null, the corners of this box are rounded by this [BorderRadius].
   ///Applies only to boxes with rectangular shapes; ignored if [shape] is not [BoxShape.rectangle].
   ///The [shape] or the [borderRadius] won't clip the children of the decorated [Container].
   /// If the clip is required, insert a clip widget (e.g., [ClipRect], [ClipRRect], [ClipPath]) as the child of the [Container].
   ///  Be aware that clipping may be costly in terms of performance.
+  final BorderRadiusGeometry borderRadius;
+
+  /// Fetches the image and generates the palette color
+  final Future<PaletteGenerator?>? Function(Future<PaletteGenerator>?)?
+      onPaletteReceived;
 
   const ImageBlur({
     required this.imageUrl,
@@ -189,6 +193,7 @@ class ImageBlur extends StatefulWidget {
     this.memCacheWidth,
     this.placeholderColor = const Color.fromRGBO(224, 224, 224, 1),
     this.borderRadius = BorderRadius.zero,
+    this.onPaletteReceived,
   });
 
   static Widget imageCircularBlur({
@@ -653,6 +658,15 @@ class ImageBlur extends StatefulWidget {
 }
 
 class _ImageBlurState extends State<ImageBlur> {
+  @override
+  void initState() {
+    GetImage.fetchImageAndGeneratePalette(widget.imageUrl).then((value) {
+      widget.onPaletteReceived?.call(Future.value(value));
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double blurValue = 0.0;
