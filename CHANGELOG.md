@@ -21,5 +21,9 @@
 
 * Fix And Update Property onPaletteReceived.
 
+## 1.0.7
+
+* Update And Support Web.
+
 
 

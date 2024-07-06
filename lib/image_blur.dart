@@ -6,7 +6,10 @@ import 'package:image_blur/src/tools/get_image_tools.dart';
 import 'package:image_blur/src/widget/image_circular_blur.dart';
 import 'package:image_blur/src/widget/image_hash_preview.dart';
 import 'package:image_blur/src/widget/image_hash_preview_circular.dart';
+import 'package:image_blur/src/widget/image_hash_web.dart';
 import 'package:palette_generator/palette_generator.dart';
+
+export 'package:progressive_image/progressive_image.dart';
 
 class ImageBlur extends StatefulWidget {
   /// [imageUrl] The path or URL of the image to be displayed.
@@ -642,6 +645,85 @@ class ImageBlur extends StatefulWidget {
       cacheHeight: cacheHeight,
       scale: scale,
       key: key,
+    );
+  }
+
+  static Widget blurIsWeb({
+    /// The placeholder image displayed while the main image is loading.
+    ///
+    /// This image is shown with a blur effect until the main image is fully loaded.
+    required final String placeholder,
+
+    /// The thumbnail image displayed as a preview before the main image is loaded.
+    required final String thumbnail,
+
+    /// The main image to be displayed.
+    required final String image,
+
+    /// The width of the image widget.
+    final double? width,
+
+    /// The height of the image widget.
+    final double? height,
+
+    /// The asset bundle to use for loading the placeholder.
+    final AssetBundle? bundle,
+
+    /// The scale for the thumbnail image.
+    final double? thumbnailScale,
+
+    /// The scale for the main image.
+    final double? imageScale,
+
+    /// The scale for the placeholder image.
+    final double? placeholderScale,
+
+    /// How to inscribe the image into the space allocated during layout.
+    final BoxFit? fit,
+
+    /// The duration of the fade animation when the main image is loaded.
+    final Duration? fadeDuration,
+
+    /// How to align the image within its bounds.
+    final Alignment? alignment,
+
+    /// How to paint any portions of the box that are not covered by the image.
+    final ImageRepeat? repeat,
+
+    /// Whether to match the direction of text for the image.
+    final bool? matchTextDirection,
+
+    /// The amount of blur to apply to the placeholder image.
+    final double? blur,
+
+    /// Whether to exclude this image from semantics.
+    final bool? excludeFromSemantics,
+
+    /// A semantic description of the image.
+    final String? imageSemanticLabel,
+
+    /// Creates a [BlurIsWeb] widget.
+    ///
+    /// The [placeholder], [thumbnail], and [image] parameters are required.
+  }) {
+    return BlurIsWeb(
+      placeholder: placeholder,
+      thumbnail: thumbnail,
+      image: image,
+      width: width,
+      height: height,
+      bundle: bundle,
+      thumbnailScale: thumbnailScale,
+      imageScale: imageScale,
+      placeholderScale: placeholderScale,
+      fit: fit,
+      fadeDuration: fadeDuration,
+      alignment: alignment,
+      repeat: repeat,
+      matchTextDirection: matchTextDirection,
+      excludeFromSemantics: excludeFromSemantics,
+      imageSemanticLabel: imageSemanticLabel,
+      blur: blur,
     );
   }
 
