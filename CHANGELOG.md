@@ -25,5 +25,9 @@
 
 * Update And Support Web.
 
+## 1.0.71
+
+* Fix bug.
+
 
 
