@@ -13,7 +13,7 @@ class ImageHashPreview extends StatefulWidget {
   /// [height] The height of the image widget.
   final double? height;
 
-  /// [curve] The color to display as a placeholder while the image is loading.
+  /// [placeholderColor] The color to display as a placeholder while the image is loading.
   final Color? placeholderColor;
 
   /// [] The curve used for animation transitions.

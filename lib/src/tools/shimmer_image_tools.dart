@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerImage extends StatelessWidget {
+  /// [height] The height of the shimmer effect.
   final double height;
+
+  /// [width] The width of the shimmer effect.
   final double width;
+
+  /// [baseColorShimmer] The base color used for the shimmer effect.
   final Color baseColorShimmer;
+
+  /// [highlightColorShimmer] The highlight color used for the shimmer effect.
   final Color highlightColorShimmer;
+
+  /// [colorShimmer] The color used to create the shimmer effect.
   final Color colorShimmer;
 
   const ShimmerImage({
