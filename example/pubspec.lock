@@ -191,10 +191,10 @@ packages:
     dependency: "direct main"
     description:
       name: image_blur
-      sha256: "216ff117b9c69436b6605a8f766e2a55819806e7f37f2bacdcb379e961ab32a1"
+      sha256: bda3e8cead587f06d4308ccaf5c2ca32de322a17b7ebfaa58d74d6c2d349220d
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.7"
+    version: "1.0.8"
   leak_tracker:
     dependency: transitive
     description:

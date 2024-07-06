@@ -140,11 +140,22 @@ imageNetwork:
 ![blur-2](https://github.com/SwanFlutter/image_blur/assets/151648897/5ed111cf-fb4b-4f51-8f10-8f811f4ec654)
 
 
+```dart
+ImageBlur.blurIsWeb(
+   placeholder: "assets/placeholder.jpg",
+   fit: BoxFit.cover,
+  thumbnail: url,
+   image: url,
+  width: size.width * 0.3,
+  height: size.height * 0.4,
+),
+```
+
 ## Getting started
 
 ```yaml
 dependencies:
-  image_blur: ^1.0.6
+  image_blur: ^1.0.9
 ```
 
 ## How to use
