@@ -25,14 +25,71 @@ height: size.height,
 ![blur-3](https://github.com/SwanFlutter/image_blur/assets/151648897/4e065444-1c6d-4442-bcee-01a68e635ae1)
 
 
+
 ```dart
+ImageBlur(
+imageUrl: listimage[index],
+);
+```
 
-/// You can get their colors from the color palette image
+![blur-4](https://github.com/SwanFlutter/image_blur/assets/151648897/39cabc43-6ddd-4e4f-bbde-82f7a32f3bf6)
 
-Color? backgroundColor;
 
-ImageBlur.imageHashPreview(
-onPaletteReceived: (paletteGeneratorFuture) async {
+
+```dart
+ImageBlur.imageHashPreviewCircular(
+ size: 340,
+imagePath:
+"https://img.freepik.com/free-vector/abstract-speaker-background_1048-2038.jpg?w=740&t=st=1708002577~exp=1708003177~hmac=75e6d3504cc3a4c077d56bcb181983b2ff88d51d5457a7dd10c039c3fec813d2",
+)
+```
+
+
+
+![blur-1](https://github.com/SwanFlutter/image_blur/assets/151648897/19aada15-2690-4679-8c2f-48b497314fce)
+
+
+
+
+```dart
+ImageBlur.imageCircularBlur(
+size: 340,
+imageNetwork:
+"https://img.freepik.com/free-photo/nature-tranquil-beauty-reflected-calm-water-generative-ai_188544-12798.jpg?size=626&ext=jpg&ga=GA1.1.8332681.1703272078&semt=ais",
+),
+```
+![blur-2](https://github.com/SwanFlutter/image_blur/assets/151648897/5ed111cf-fb4b-4f51-8f10-8f811f4ec654)
+
+
+```dart
+ImageBlur.blurIsWeb(
+   placeholder: "assets/placeholder.jpg",
+   fit: BoxFit.cover,
+  thumbnail: url,
+   image: url,
+  width: size.width * 0.3,
+  height: size.height * 0.4,
+),
+```
+
+- new 
+
+Use only one image
+
+```dart
+ImageBlur.imageBlurGetPalletteColor(
+  imageUrl: listimage[index],
+)
+```
+
+- new
+
+Use only one image
+
+```dart
+ImageBlur.imageHashGetPaletteColor(
+  imageUrl: listimage[index],
+  onPaletteReceived: (paletteGeneratorFuture) async {
  // Create a timeout future with a specified duration (e.g., 5 seconds)
 Future<PaletteGenerator?> createTimeoutFuture(
  Duration duration) {
@@ -94,68 +151,16 @@ Icons.image_not_supported_outlined,
  color: Theme.of(context).primaryColor,
 );
 },
-),
-```
-
-
-
-![20240505_073705](https://github.com/SwanFlutter/image_blur/assets/151648897/d5a1f5a4-0b64-4059-9213-56bee562716c)
-
-
-
-
-
-```dart
-ImageBlur(
-imageUrl: listimage[index],
-);
-```
-
-![blur-4](https://github.com/SwanFlutter/image_blur/assets/151648897/39cabc43-6ddd-4e4f-bbde-82f7a32f3bf6)
-
-
-
-```dart
-ImageBlur.imageHashPreviewCircular(
- size: 340,
-imagePath:
-"https://img.freepik.com/free-vector/abstract-speaker-background_1048-2038.jpg?w=740&t=st=1708002577~exp=1708003177~hmac=75e6d3504cc3a4c077d56bcb181983b2ff88d51d5457a7dd10c039c3fec813d2",
 )
 ```
 
-
-
-![blur-1](https://github.com/SwanFlutter/image_blur/assets/151648897/19aada15-2690-4679-8c2f-48b497314fce)
-
-
-
-
-```dart
-ImageBlur.imageCircularBlur(
-size: 340,
-imageNetwork:
-"https://img.freepik.com/free-photo/nature-tranquil-beauty-reflected-calm-water-generative-ai_188544-12798.jpg?size=626&ext=jpg&ga=GA1.1.8332681.1703272078&semt=ais",
-),
-```
-![blur-2](https://github.com/SwanFlutter/image_blur/assets/151648897/5ed111cf-fb4b-4f51-8f10-8f811f4ec654)
-
-
-```dart
-ImageBlur.blurIsWeb(
-   placeholder: "assets/placeholder.jpg",
-   fit: BoxFit.cover,
-  thumbnail: url,
-   image: url,
-  width: size.width * 0.3,
-  height: size.height * 0.4,
-),
-```
+![20240505_073705](https://github.com/SwanFlutter/image_blur/assets/151648897/d5a1f5a4-0b64-4059-9213-56bee562716c)
 
 ## Getting started
 
 ```yaml
 dependencies:
-  image_blur: ^1.0.9
+  image_blur: ^1.0.82
 ```
 
 ## How to use

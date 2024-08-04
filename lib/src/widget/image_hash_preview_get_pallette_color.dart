@@ -3,7 +3,7 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:image_blur/src/tools/get_image_tools.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-class ImageHashPreview extends StatefulWidget {
+class ImageHashGetPaletteColor extends StatefulWidget {
   /// [imagePath] The path or URL of the image to be displayed.
   final String imagePath;
 
@@ -103,8 +103,7 @@ class ImageHashPreview extends StatefulWidget {
   /// Fetches the image and generates the palette color
   final Future<PaletteGenerator?>? Function(Future<PaletteGenerator>?)?
       onPaletteReceived;
-
-  const ImageHashPreview({
+  const ImageHashGetPaletteColor({
     Key? key,
     required this.imagePath,
     this.width,
@@ -142,16 +141,26 @@ class ImageHashPreview extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ImageHashPreviewState createState() => _ImageHashPreviewState();
+  State<ImageHashGetPaletteColor> createState() =>
+      _ImageHashGetPaletteColorState();
 }
 
-class _ImageHashPreviewState extends State<ImageHashPreview> {
+class _ImageHashGetPaletteColorState extends State<ImageHashGetPaletteColor> {
   late Future<String?> imageHashFuture;
 
   @override
   void initState() {
     super.initState();
     imageHashFuture = GetImage.getImageHash(widget.imagePath);
+
+    // Fetch the image and generate the palette
+
+    GetImage.fetchImageAndGeneratePalette(widget.imagePath).then((value) {
+      if (mounted) {
+        widget.onPaletteReceived?.call(Future.value(value));
+        setState(() {});
+      }
+    });
   }
 
   @override
