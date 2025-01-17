@@ -151,7 +151,7 @@ ImageBlur.optimizedImageHashPreview(
 
 ```yaml
 dependencies:
-  image_blur: ^1.0.9
+  image_blur: ^1.0.90
 ```
 
 ## How to use

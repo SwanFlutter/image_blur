@@ -1,8 +1,8 @@
 name: image_blur
 description: "This Flutter package enables adding shimmer and blur effects to images. Apply these effects in circular and rectangular shapes, for both local and online images."
-version: 1.0.9
+version: 1.0.90
 homepage: https://github.com/SwanFlutter/image_blur
-publish_to: none
+publish_to: https://pub.dev
 
 platforms:
   android:
