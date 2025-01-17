@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_blur/image_blur.dart';
+import 'package:imageblur_example/hash_image_test.dart';
+import 'package:imageblur_example/palet_color.dart';
 
 void main() async {
   await ImageBlur.init();
@@ -13,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -49,8 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
           height: 1500,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            spacing: 20,
             children: <Widget>[
-              SizedBox(
+              /* SizedBox(
                 width: size.width * 0.3,
                 height: size.height * 0.4,
                 child: ImageBlur.blurIsWeb(
@@ -61,8 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: size.width * 0.3,
                   height: size.height * 0.4,
                 ),
-              ),
-              const SizedBox(height: 5),
+              ),*/
+              /*  const SizedBox(height: 5),
               SizedBox(
                 width: size.width * 0.3,
                 height: size.height * 0.4,
@@ -93,7 +97,33 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ImageBlur.imageHashPreviewCircular(
                   imagePath: url,
                 ),
+              ),*/
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HashImageTest()));
+                  },
+                  child: const Text("Press me")),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HashImageTest1()));
+                },
+                child: const Text("Press me1"),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ColorPaletteHome()));
+                },
+                child: const Text("Press me"),
+              )
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:image_blur/src/tools/get_image_tools.dart';
+import 'package:image_blur/src/tools/image_hash_manager.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class ImageHashGetPaletteColor extends StatefulWidget {
@@ -104,7 +105,7 @@ class ImageHashGetPaletteColor extends StatefulWidget {
   final Future<PaletteGenerator?>? Function(Future<PaletteGenerator>?)?
       onPaletteReceived;
   const ImageHashGetPaletteColor({
-    Key? key,
+    super.key,
     required this.imagePath,
     this.width,
     this.height,
@@ -138,33 +139,49 @@ class ImageHashGetPaletteColor extends StatefulWidget {
     this.scale = 1.0,
     this.borderRadius = BorderRadius.zero,
     this.onPaletteReceived,
-  }) : super(key: key);
+  });
 
   @override
   State<ImageHashGetPaletteColor> createState() =>
       _ImageHashGetPaletteColorState();
 }
 
-class _ImageHashGetPaletteColorState extends State<ImageHashGetPaletteColor> {
+class _ImageHashGetPaletteColorState extends State<ImageHashGetPaletteColor>
+    with AutomaticKeepAliveClientMixin {
   late Future<String?> imageHashFuture;
+  bool _disposed = false;
 
   @override
   void initState() {
     super.initState();
-    imageHashFuture = GetImage.getImageHash(widget.imagePath);
+    _validateInputs();
+    _initializeImage();
+  }
 
-    // Fetch the image and generate the palette
+  void _validateInputs() {
+    assert(widget.decodingWidth > 0, 'decodingWidth must be positive');
+    assert(widget.decodingHeight > 0, 'decodingHeight must be positive');
+    assert(widget.scale > 0, 'scale must be positive');
+  }
 
-    GetImage.fetchImageAndGeneratePalette(widget.imagePath).then((value) {
-      if (mounted) {
-        widget.onPaletteReceived?.call(Future.value(value));
-        setState(() {});
-      }
-    });
+  void _initializeImage() {
+    imageHashFuture = ImageHashManager.getImageHash(widget.imagePath);
+    _fetchPalette();
+  }
+
+  Future<void> _fetchPalette() async {
+    if (!mounted) return;
+
+    final palette =
+        await GetImage.fetchImageAndGeneratePalette(widget.imagePath);
+    if (!_disposed && mounted) {
+      widget.onPaletteReceived?.call(Future.value(palette));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SizedBox(
       width: widget.width,
       height: widget.height,
@@ -172,68 +189,144 @@ class _ImageHashGetPaletteColorState extends State<ImageHashGetPaletteColor> {
         future: imageHashFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container(
-              width: widget.width,
-              height: widget.height,
-              clipBehavior: Clip.none,
-              decoration: BoxDecoration(
-                color: widget.placeholderColor ?? Colors.grey.shade300,
-                borderRadius: widget.borderRadius,
-              ),
-            ); // Show loading indicator
-          } else if (snapshot.hasData) {
+            return _buildLoadingWidget();
+          } else if (snapshot.hasData && snapshot.data != null) {
             return Stack(
               children: [
-                Opacity(
-                  opacity: 0.0, // Set opacity to 0 to hide the image
-                  child: Image.network(
-                    widget.imagePath,
-                    width: widget.width,
-                    height: widget.height,
-                    fit: widget.fit,
-                    colorBlendMode: widget.colorBlendMode,
-                    color: widget.color,
-                    alignment: widget.alignment,
-                    centerSlice: widget.centerSlice,
-                    opacity: widget.opacity,
-                    filterQuality: widget.filterQuality,
-                    repeat: widget.repeat,
-                    matchTextDirection: widget.matchTextDirection,
-                    gaplessPlayback: widget.gapLessPlayback,
-                    semanticLabel: widget.semanticLabel,
-                    frameBuilder: widget.frameBuilder,
-                    loadingBuilder: widget.loadingBuilder,
-                    errorBuilder: widget.errorBuilder,
-                    isAntiAlias: widget.isAntiAlias,
-                    headers: widget.headers,
-                    cacheWidth: widget.cacheWidth,
-                    cacheHeight: widget.cacheHeight,
-                    scale: widget.scale,
-                  ),
-                ),
-                BlurHash(
-                  color: Colors.transparent,
-                  hash: snapshot.data!, // Access the extracted String
-                  image: widget.imagePath,
-                  imageFit: widget.fit,
-                  curve: widget.curve,
-                  decodingHeight: widget.decodingHeight,
-                  decodingWidth: widget.decodingWidth,
-                  duration: widget.duration,
-                  onDecoded: widget.onDecoded,
-                  onStarted: widget.onStarted,
-                  onDisplayed: widget.onDisplayed,
-                  onReady: widget.onReady,
-                ),
+                _buildHiddenImage(),
+                _buildBlurHash(snapshot.data!),
               ],
             );
           } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}'); // Handle errors
+            return _buildErrorWidget(snapshot.error);
           } else {
-            return Container(); // Or any default widget
+            return _buildErrorWidget('Failed to load image');
           }
         },
       ),
     );
   }
+
+  Widget _buildLoadingWidget() {
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: widget.placeholderColor ?? Colors.grey.shade300,
+        borderRadius: widget.borderRadius,
+      ),
+    );
+  }
+
+  Widget _buildHiddenImage() {
+    return Opacity(
+      opacity: 0.0,
+      child: Image.network(
+        widget.imagePath,
+        width: widget.width,
+        height: widget.height,
+        fit: widget.fit,
+        colorBlendMode: widget.colorBlendMode,
+        color: widget.color,
+        alignment: widget.alignment,
+        centerSlice: widget.centerSlice,
+        opacity: widget.opacity,
+        filterQuality: widget.filterQuality,
+        repeat: widget.repeat,
+        matchTextDirection: widget.matchTextDirection,
+        gaplessPlayback: widget.gapLessPlayback,
+        semanticLabel: widget.semanticLabel,
+        frameBuilder: widget.frameBuilder,
+        loadingBuilder: widget.loadingBuilder,
+        errorBuilder: widget.errorBuilder,
+        isAntiAlias: widget.isAntiAlias,
+        headers: widget.headers,
+        cacheWidth: widget.cacheWidth,
+        cacheHeight: widget.cacheHeight,
+        scale: widget.scale,
+      ),
+    );
+  }
+
+  Widget _buildBlurHash(String hash) {
+    return ClipRRect(
+      borderRadius: widget.borderRadius,
+      child: BlurHash(
+        color: Colors.transparent,
+        hash: hash,
+        image: widget.imagePath,
+        imageFit: widget.fit,
+        curve: widget.curve,
+        decodingHeight: widget.decodingHeight,
+        decodingWidth: widget.decodingWidth,
+        duration: widget.duration,
+        onDecoded: () {
+          if (!_disposed) {
+            widget.onDecoded?.call();
+          }
+        },
+        onStarted: () {
+          if (!_disposed) {
+            widget.onStarted?.call();
+          }
+        },
+        onDisplayed: () {
+          if (!_disposed) {
+            widget.onDisplayed?.call();
+          }
+        },
+        onReady: () {
+          if (!_disposed) {
+            widget.onReady?.call();
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildErrorWidget(Object? error) {
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+        borderRadius: widget.borderRadius,
+      ),
+      alignment: Alignment.center,
+      child: widget.errorBuilder?.call(
+            context,
+            error ?? 'Failed to load image',
+            null,
+          ) ??
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                color: Colors.grey.shade400,
+                size: 24,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Image not available',
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

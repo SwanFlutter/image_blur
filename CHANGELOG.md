@@ -29,9 +29,6 @@
 
 * Fix bug.
 
-## 1.0.9
-
-* Fix Pub Ponit.
 
 ## 1.0.81
 
@@ -43,4 +40,8 @@
 * Add two feature imageHashGetPaletteColor AND imageBlurGetPalletteColor .
 * These two widgets were added because the app crashed when it received the value of the Blair list and the hash.
 
+## 1.0.9
 
+* Fix Pub Ponit.
+* Update package
+* Update SDK

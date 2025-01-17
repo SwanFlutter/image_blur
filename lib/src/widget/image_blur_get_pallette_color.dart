@@ -160,7 +160,7 @@ class ImageBlurGetPalletteColor extends StatefulWidget {
       onPaletteReceived;
   const ImageBlurGetPalletteColor({
     required this.imageUrl,
-    Key? key,
+    super.key,
     this.fit = BoxFit.cover,
     this.height,
     this.width,
@@ -190,7 +190,7 @@ class ImageBlurGetPalletteColor extends StatefulWidget {
     this.placeholderColor = const Color.fromRGBO(224, 224, 224, 1),
     this.borderRadius = BorderRadius.zero,
     this.onPaletteReceived,
-  }) : super(key: key);
+  });
 
   @override
   State<ImageBlurGetPalletteColor> createState() =>
@@ -198,6 +198,7 @@ class ImageBlurGetPalletteColor extends StatefulWidget {
 }
 
 class _ImageBlurGetPalletteColorState extends State<ImageBlurGetPalletteColor> {
+  @override
   void initState() {
     super.initState();
     GetImage.fetchImageAndGeneratePalette(widget.imageUrl).then((value) {

@@ -8,9 +8,11 @@ import 'package:image_blur/src/widget/image_hash_preview.dart';
 import 'package:image_blur/src/widget/image_hash_preview_circular.dart';
 import 'package:image_blur/src/widget/image_hash_preview_get_pallette_color.dart';
 import 'package:image_blur/src/widget/image_hash_web.dart';
+import 'package:image_blur/src/widget/optimized_image_hash_preview.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-export 'package:progressive_image/progressive_image.dart';
+export 'package:image_blur/src/tools/image_hash_manager.dart';
+export 'package:image_blur_web/image_blur_web.dart';
 
 class ImageBlur extends StatefulWidget {
   /// [imageUrl] The path or URL of the image to be displayed.
@@ -164,7 +166,7 @@ class ImageBlur extends StatefulWidget {
 
   const ImageBlur({
     required this.imageUrl,
-    Key? key,
+    super.key,
     this.fit = BoxFit.cover,
     this.height,
     this.width,
@@ -769,31 +771,19 @@ class ImageBlur extends StatefulWidget {
     /// The placeholder image displayed while the main image is loading.
     ///
     /// This image is shown with a blur effect until the main image is fully loaded.
-    required final String placeholder,
+    required final ImageProvider<Object> placeholder,
 
     /// The thumbnail image displayed as a preview before the main image is loaded.
-    required final String thumbnail,
+    required final ImageProvider<Object> thumbnail,
 
     /// The main image to be displayed.
-    required final String image,
+    required final ImageProvider<Object> image,
 
     /// The width of the image widget.
     final double? width,
 
     /// The height of the image widget.
     final double? height,
-
-    /// The asset bundle to use for loading the placeholder.
-    final AssetBundle? bundle,
-
-    /// The scale for the thumbnail image.
-    final double? thumbnailScale,
-
-    /// The scale for the main image.
-    final double? imageScale,
-
-    /// The scale for the placeholder image.
-    final double? placeholderScale,
 
     /// How to inscribe the image into the space allocated during layout.
     final BoxFit? fit,
@@ -819,6 +809,31 @@ class ImageBlur extends StatefulWidget {
     /// A semantic description of the image.
     final String? imageSemanticLabel,
 
+    /// The background color to display while the image is loading.
+    final Color? backgroundColor,
+
+    /// The border radius of the image.
+    final BorderRadius? borderRadius,
+
+    /// The box shadow of the image.
+    final List<BoxShadow>? boxShadow,
+
+    /// A callback that is called when the image is tapped.
+    final void Function()? onTap,
+
+    /// Whether to enable hover effects on the image.
+    final bool enableHover = false,
+
+    /// A widget to display when the image fails to load.
+    final Widget Function(BuildContext, Object)? errorWidget,
+
+    /// A builder function that is called when the image is loading.
+    final Widget Function(BuildContext, Widget, ImageChunkEvent?)?
+        loadingBuilder,
+
+    /// The key for the image widget.
+    final Key? key,
+
     /// Creates a [BlurIsWeb] widget.
     ///
     /// The [placeholder], [thumbnail], and [image] parameters are required.
@@ -829,10 +844,6 @@ class ImageBlur extends StatefulWidget {
       image: image,
       width: width,
       height: height,
-      bundle: bundle,
-      thumbnailScale: thumbnailScale,
-      imageScale: imageScale,
-      placeholderScale: placeholderScale,
       fit: fit,
       fadeDuration: fadeDuration,
       alignment: alignment,
@@ -841,6 +852,14 @@ class ImageBlur extends StatefulWidget {
       excludeFromSemantics: excludeFromSemantics,
       imageSemanticLabel: imageSemanticLabel,
       blur: blur,
+      backgroundColor: backgroundColor,
+      borderRadius: borderRadius,
+      boxShadow: boxShadow,
+      onTap: onTap,
+      enableHover: enableHover,
+      errorWidget: errorWidget,
+      loadingBuilder: loadingBuilder,
+      key: key,
     );
   }
 
@@ -1036,7 +1055,7 @@ class ImageBlur extends StatefulWidget {
     );
   }
 
-  static imageHashGetPaletteColor({
+  static Widget imageHashGetPaletteColor({
     /// [imagePath] The path or URL of the image to be displayed.
     required final String imagePath,
 
@@ -1173,6 +1192,44 @@ class ImageBlur extends StatefulWidget {
       borderRadius: borderRadius,
       onPaletteReceived: onPaletteReceived,
       key: key,
+    );
+  }
+
+  static Widget optimizedImageHashPreview({
+    /// The path to the image. Can be a local path or a network URL.
+    required final String imagePath,
+
+    /// The width of the image.
+    final double? width,
+
+    /// The height of the image.
+    final double? height,
+
+    /// How to inscribe the image into the space allocated during layout.
+    /// The default value is [BoxFit.cover].
+    final BoxFit fit = BoxFit.cover,
+
+    /// The color to use as a placeholder before the BlurHash is loaded.
+    final Color? placeholderColor,
+
+    /// The border radius of the image.
+    final BorderRadiusGeometry borderRadius = BorderRadius.zero,
+
+    /// The duration of the fade-in animation when the actual image is loaded.
+    final Duration duration = const Duration(milliseconds: 500),
+
+    /// A callback function that is called when the image is fully loaded.
+    final Function()? onLoaded,
+  }) {
+    return OptimizedImageHashPreview(
+      imagePath: imagePath,
+      borderRadius: borderRadius,
+      duration: duration,
+      fit: fit,
+      height: height,
+      width: width,
+      onLoaded: onLoaded,
+      placeholderColor: placeholderColor,
     );
   }
 

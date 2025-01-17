@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
-import 'package:image_blur/src/tools/get_image_tools.dart';
+import 'package:image_blur/src/tools/image_hash_manager.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class ImageHashPreview extends StatefulWidget {
@@ -151,7 +151,7 @@ class _ImageHashPreviewState extends State<ImageHashPreview> {
   @override
   void initState() {
     super.initState();
-    imageHashFuture = GetImage.getImageHash(widget.imagePath);
+    imageHashFuture = ImageHashManager.getImageHash(widget.imagePath);
   }
 
   @override
@@ -173,53 +173,71 @@ class _ImageHashPreviewState extends State<ImageHashPreview> {
               ),
             ); // Show loading indicator
           } else if (snapshot.hasData) {
-            return Stack(
-              children: [
-                Opacity(
-                  opacity: 0.0, // Set opacity to 0 to hide the image
-                  child: Image.network(
-                    widget.imagePath,
-                    width: widget.width,
-                    height: widget.height,
-                    fit: widget.fit,
-                    colorBlendMode: widget.colorBlendMode,
-                    color: widget.color,
-                    alignment: widget.alignment,
-                    centerSlice: widget.centerSlice,
-                    opacity: widget.opacity,
-                    filterQuality: widget.filterQuality,
-                    repeat: widget.repeat,
-                    matchTextDirection: widget.matchTextDirection,
-                    gaplessPlayback: widget.gapLessPlayback,
-                    semanticLabel: widget.semanticLabel,
-                    frameBuilder: widget.frameBuilder,
-                    loadingBuilder: widget.loadingBuilder,
-                    errorBuilder: widget.errorBuilder,
-                    isAntiAlias: widget.isAntiAlias,
-                    headers: widget.headers,
-                    cacheWidth: widget.cacheWidth,
-                    cacheHeight: widget.cacheHeight,
-                    scale: widget.scale,
+            return ClipRRect(
+              borderRadius: widget.borderRadius,
+              child: Stack(
+                fit: StackFit.passthrough,
+                children: [
+                  Opacity(
+                    opacity: 0.0, // Set opacity to 0 to hide the image
+                    child: Image.network(
+                      widget.imagePath,
+                      width: widget.width,
+                      height: widget.height,
+                      fit: widget.fit,
+                      colorBlendMode: widget.colorBlendMode,
+                      color: widget.color,
+                      alignment: widget.alignment,
+                      centerSlice: widget.centerSlice,
+                      opacity: widget.opacity,
+                      filterQuality: widget.filterQuality,
+                      repeat: widget.repeat,
+                      matchTextDirection: widget.matchTextDirection,
+                      gaplessPlayback: widget.gapLessPlayback,
+                      semanticLabel: widget.semanticLabel,
+                      frameBuilder: widget.frameBuilder,
+                      loadingBuilder: widget.loadingBuilder,
+                      errorBuilder: widget.errorBuilder,
+                      isAntiAlias: widget.isAntiAlias,
+                      headers: widget.headers,
+                      cacheWidth: widget.cacheWidth,
+                      cacheHeight: widget.cacheHeight,
+                      scale: widget.scale,
+                    ),
                   ),
-                ),
-                BlurHash(
-                  color: Colors.transparent,
-                  hash: snapshot.data!, // Access the extracted String
-                  image: widget.imagePath,
-                  imageFit: widget.fit,
-                  curve: widget.curve,
-                  decodingHeight: widget.decodingHeight,
-                  decodingWidth: widget.decodingWidth,
-                  duration: widget.duration,
-                  onDecoded: widget.onDecoded,
-                  onStarted: widget.onStarted,
-                  onDisplayed: widget.onDisplayed,
-                  onReady: widget.onReady,
-                ),
-              ],
+                  BlurHash(
+                    color: Colors.transparent,
+                    hash: snapshot.data!, // Access the extracted String
+                    image: widget.imagePath,
+                    imageFit: widget.fit,
+                    curve: widget.curve,
+                    decodingHeight: widget.decodingHeight,
+                    decodingWidth: widget.decodingWidth,
+                    duration: widget.duration,
+                    onDecoded: widget.onDecoded,
+                    onStarted: widget.onStarted,
+                    onDisplayed: widget.onDisplayed,
+                    onReady: widget.onReady,
+                  ),
+                ],
+              ),
             );
           } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}'); // Handle errors
+            return Container(
+              width: widget.width,
+              height: widget.height,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: widget.borderRadius,
+              ),
+              child: widget.errorBuilder?.call(
+                    context,
+                    snapshot.error as Object,
+                    StackTrace.current,
+                  ) ??
+                  const Icon(Icons.error_outline, color: Colors.red),
+            ); // Handle errors
           } else {
             return Container(); // Or any default widget
           }

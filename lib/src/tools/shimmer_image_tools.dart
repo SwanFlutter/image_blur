@@ -18,13 +18,13 @@ class ShimmerImage extends StatelessWidget {
   final Color colorShimmer;
 
   const ShimmerImage({
-    Key? key,
+    super.key,
     required this.height,
     required this.width,
     required this.baseColorShimmer,
     required this.highlightColorShimmer,
     required this.colorShimmer,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

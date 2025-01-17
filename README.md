@@ -87,80 +87,71 @@ ImageBlur.imageBlurGetPalletteColor(
 Use only one image
 
 ```dart
-ImageBlur.imageHashGetPaletteColor(
-  imageUrl: listimage[index],
-  onPaletteReceived: (paletteGeneratorFuture) async {
- // Create a timeout future with a specified duration (e.g., 5 seconds)
-Future<PaletteGenerator?> createTimeoutFuture(
- Duration duration) {
-final completer = Completer<PaletteGenerator?>();
-Future.delayed(
-duration, () => completer.complete(null));
-return completer.future;
-}
+class _ColorPaletteHomeState extends State<ColorPaletteHome> {
+  Color _appBarColor = Colors.blue; // Default AppBar color
+  Color _backgroundColor = Colors.white; // Default background color
 
-final timeoutFuture =
-createTimeoutFuture(const Duration(seconds: 5));
-// Use Future.wait to wait for either paletteGeneratorFuture to complete
-// or the timeoutFuture to elapse
-final results = await Future.wait<PaletteGenerator?>(
-[
- paletteGeneratorFuture
-as Future<PaletteGenerator?>,
-timeoutFuture,
-],
-eagerError: true,
-);
+  void _updateColors(Color dominantColor) {
+    setState(() {
+      _appBarColor = dominantColor;
+      _backgroundColor = dominantColor.withValues(alpha: 0.1); // Slightly lighter for background
+    });
+  }
 
-if (results[0] != null &&
-results[0] is PaletteGenerator) {
-// paletteGeneratorFuture completed first, process the palette
-final paletteGenerator =
-results[0] as PaletteGenerator;
-if (paletteGenerator.lightVibrantColor != null) {
-final dominantColor =
-paletteGenerator.lightVibrantColor!.color;
-setState(() {
- _draggableWidgetController.backgroundColor =
-dominantColor;
-});
-} else {
- debugPrint(
- "Palette generation failed or lightVibrantColor is null");
- }
- } else {
-// Timeout occurred or paletteGeneratorFuture is null, handle loading failure
- _draggableWidgetController.loding();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Image Color Palette'),
+        backgroundColor: _appBarColor,
+      ),
+      body: Center(
+        child: ImageBlur.imageHashGetPaletteColor(
+          imagePath: "https://img.freepik.com/free-photo/pier-lake-hallstatt-austria_181624-44201.jpg?size=626&ext=jpg&uid=R22994307&ga=GA1.1.1899687920.1695643728&semt=ais", // Replace with your image URL
+          width: 300,
+          height: 300,
+          onPaletteReceived: (paletteFuture) async {
+            final palette = await paletteFuture;
+            if (palette != null && palette.lightVibrantColor != null) {
+              _updateColors(palette.lightVibrantColor!.color);
+            }
+            return null;
+          },
+        ),
+      ),
+      backgroundColor: _backgroundColor,
+    );
+  }
 }
- return null;
-},
-duration: const Duration(seconds: 1),
-width: size.width,
-height: size.height,
-fit: Platform.isWindows &&
- Platform.isMacOS &&
- Platform.isLinux &&
-kIsWeb
-? BoxFit.fitHeight
-: BoxFit.cover,
-imagePath: widget.imagePath,
- errorBuilder: (context, error, stackTrace) {
-_draggableWidgetController.loding();
-return Icon(
-Icons.image_not_supported_outlined,
- color: Theme.of(context).primaryColor,
-);
-},
-)
 ```
 
 ![20240505_073705](https://github.com/SwanFlutter/image_blur/assets/151648897/d5a1f5a4-0b64-4059-9213-56bee562716c)
+
+
+- new 
+
+- optimizedImageHashPreview fast hash image
+
+
+```dart
+ImageBlur.optimizedImageHashPreview(
+  imagePath: 'https://example.com/image.jpg',
+  width: 300,
+  height: 200,
+  fit: BoxFit.cover,
+  borderRadius: BorderRadius.circular(8),
+  duration: Duration(milliseconds: 800),
+  onLoaded: () {
+    print('Image loaded successfully');
+  },
+)
+```
 
 ## Getting started
 
 ```yaml
 dependencies:
-  image_blur: ^1.0.82
+  image_blur: ^1.0.9
 ```
 
 ## How to use

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
-import 'package:image_blur/src/tools/get_image_tools.dart';
+import 'package:image_blur/src/tools/image_hash_manager.dart';
 
 /// A circular image widget that displays an image fetched from the provided [imagePath]
 /// with an optional BlurHash preview while loading.
@@ -96,7 +96,7 @@ class ImageHashPreviewCircular extends StatefulWidget {
   /// [scale]: The scale to apply to the image.
   final double scale;
   const ImageHashPreviewCircular({
-    Key? key,
+    super.key,
     required this.imagePath,
     this.size = 50,
     this.placeholderColor = const Color.fromRGBO(224, 224, 224, 1),
@@ -127,7 +127,7 @@ class ImageHashPreviewCircular extends StatefulWidget {
     this.cacheWidth,
     this.cacheHeight,
     this.scale = 1.0,
-  }) : super(key: key);
+  });
 
   @override
   State<ImageHashPreviewCircular> createState() =>
@@ -140,7 +140,7 @@ class _ImageHashPreviewCircularState extends State<ImageHashPreviewCircular> {
   @override
   void initState() {
     super.initState();
-    imageHashFuture = GetImage.getImageHash(widget.imagePath);
+    imageHashFuture = ImageHashManager.getImageHash(widget.imagePath);
   }
 
   @override

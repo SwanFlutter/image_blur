@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:image_blur/image_blur.dart';
+import 'package:image_blur_web/image_blur_web.dart';
 
 /// A widget that displays an image with a blurred placeholder and a thumbnail.
 ///
@@ -22,31 +23,19 @@ class BlurIsWeb extends StatelessWidget {
   /// The placeholder image displayed while the main image is loading.
   ///
   /// This image is shown with a blur effect until the main image is fully loaded.
-  final String placeholder;
+  final ImageProvider<Object> placeholder;
 
   /// The thumbnail image displayed as a preview before the main image is loaded.
-  final String thumbnail;
+  final ImageProvider<Object> thumbnail;
 
   /// The main image to be displayed.
-  final String image;
+  final ImageProvider<Object> image;
 
   /// The width of the image widget.
   final double? width;
 
   /// The height of the image widget.
   final double? height;
-
-  /// The asset bundle to use for loading the placeholder.
-  final AssetBundle? bundle;
-
-  /// The scale for the thumbnail image.
-  final double? thumbnailScale;
-
-  /// The scale for the main image.
-  final double? imageScale;
-
-  /// The scale for the placeholder image.
-  final double? placeholderScale;
 
   /// How to inscribe the image into the space allocated during layout.
   final BoxFit? fit;
@@ -72,51 +61,78 @@ class BlurIsWeb extends StatelessWidget {
   /// A semantic description of the image.
   final String? imageSemanticLabel;
 
+  /// The background color to display while the image is loading.
+  final Color? backgroundColor;
+
+  /// The border radius of the image.
+  final BorderRadius? borderRadius;
+
+  /// The box shadow of the image.
+  final List<BoxShadow>? boxShadow;
+
+  /// A callback that is called when the image is tapped.
+  final void Function()? onTap;
+
+  /// Whether to enable hover effects on the image.
+  final bool enableHover;
+
+  /// A widget to display when the image fails to load.
+  final Widget Function(BuildContext, Object)? errorWidget;
+
+  /// A builder function that is called when the image is loading.
+  final Widget Function(BuildContext, Widget, ImageChunkEvent?)? loadingBuilder;
+
   /// Creates a [BlurIsWeb] widget.
   ///
   /// The [placeholder], [thumbnail], and [image] parameters are required.
 
   BlurIsWeb({
-    Key? key,
+    super.key,
     required this.placeholder,
     required this.thumbnail,
     required this.image,
     this.width,
     this.height,
-    this.bundle,
-    this.thumbnailScale = 1.0,
-    this.imageScale = 1.0,
-    this.placeholderScale = 1.0,
     this.fit = BoxFit.cover,
-    this.fadeDuration = const Duration(milliseconds: 500),
+    this.fadeDuration = const Duration(milliseconds: 800),
     this.alignment = Alignment.center,
     this.repeat = ImageRepeat.noRepeat,
     this.matchTextDirection = false,
-    this.blur = 0.0,
+    this.blur = 20.0,
     this.excludeFromSemantics = false,
     this.imageSemanticLabel,
-  }) : super(key: key);
+    this.backgroundColor,
+    this.borderRadius,
+    this.boxShadow,
+    this.onTap,
+    this.errorWidget,
+    this.enableHover = true,
+    this.loadingBuilder,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ProgressiveImage.assetNetwork(
+    return ImageBlurWeb(
       placeholder: placeholder,
       thumbnail: thumbnail,
       image: image,
       width: width ?? 200,
       height: height ?? 200,
-      bundle: bundle,
-      thumbnailScale: thumbnailScale ?? 1.0,
-      imageScale: imageScale ?? 1.0,
-      placeholderScale: placeholderScale ?? 1.0,
       fit: fit ?? BoxFit.cover,
-      fadeDuration: fadeDuration ?? const Duration(milliseconds: 500),
+      fadeDuration: fadeDuration ?? const Duration(milliseconds: 800),
       alignment: alignment ?? Alignment.center,
       repeat: repeat ?? ImageRepeat.noRepeat,
       matchTextDirection: matchTextDirection ?? false,
       excludeFromSemantics: excludeFromSemantics ?? false,
       imageSemanticLabel: imageSemanticLabel,
       blur: blur ?? 0.0,
+      backgroundColor: backgroundColor,
+      borderRadius: borderRadius,
+      boxShadow: boxShadow,
+      onTap: onTap,
+      enableHover: enableHover,
+      errorWidget: errorWidget,
+      loadingBuilder: loadingBuilder,
     );
   }
 }
